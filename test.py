@@ -10,6 +10,8 @@ logging.basicConfig(
 
 from tarifcalc import tarifcalc
 
+
+
 class NoInputTest(unittest.TestCase):
 
     def testSimple(self):
@@ -141,7 +143,7 @@ class CustomizationTest(unittest.TestCase):
             remove(dbfile)
         tarifcalc.calc()
         import time
-        time.sleep(60)
+        time.sleep(40)
         self.assertTrue(exists(dbfile))
         result = tarifcalc.calc()()
         self.assertEqual(float(result), 118.7)
@@ -163,7 +165,7 @@ class CustomizationTest(unittest.TestCase):
             remove(dbfile)
         tarifcalc.calc(config = {'zonesdbcfg': zonesdbcfg})
         import time
-        time.sleep(60)
+        time.sleep(40)
         self.assertTrue(exists(dbfile))
         result = tarifcalc.calc()()
         self.assertEqual(float(result), 118.7)
@@ -171,6 +173,27 @@ class CustomizationTest(unittest.TestCase):
         getzones.DBPATH = ''
         getzones.TMPPATH = ''
 
+    def testZonesDBAbsentLocationConfigure(self):
+        from os.path import expanduser, exists, join
+        from tema.utils import removeany
+        zonesdbcfg = dict(
+            DBPATH = expanduser('~/.dbpath'),
+            TMPPATH = expanduser('~/.zonestmp')
+            )
+        removeany(zonesdbcfg['DBPATH'])
+        removeany(zonesdbcfg['TMPPATH'])
+        tarifcalc.calc(config = {'zonesdbcfg': zonesdbcfg})
+        import time
+        time.sleep(40)
+        dbfile = join(zonesdbcfg['DBPATH'], 'zonesdb')
+        self.assertTrue(exists(dbfile))
+        result = tarifcalc.calc()()
+        self.assertEqual(float(result), 118.7)
+        from tarifcalc import getzones
+        getzones.DBPATH = ''
+        getzones.TMPPATH = ''
+        removeany(zonesdbcfg['DBPATH'])
+        removeany(zonesdbcfg['TMPPATH'])
 
 if __name__ == '__main__':
     unittest.main()

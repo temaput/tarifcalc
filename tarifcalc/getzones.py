@@ -3,7 +3,8 @@
 import logging
 log = logging.getLogger(__name__)
 
-from os.path import join
+from os.path import join, exists
+from os import makedirs
 
 INDEXFIELD = 'index'
 RATEFIELD = 'ratezone'
@@ -88,6 +89,8 @@ def downloadZIP(links):
     except ImportError:
         from urllib.request import urlretrieve
     from urlparse import urljoin
+    if TMPPATH and not exists(TMPPATH):
+        makedirs(TMPPATH)
     log.debug("links are: %s", links)
     for link in sorted(links, 
             key = lambda x: x[-6:-4],
@@ -121,6 +124,9 @@ def maintenance():
         log.info("Maintenance is already running, exiting...")
         return
     dbfile = join(DBPATH, 'zonesdb')
+    if DBPATH and not exists(DBPATH):
+        log.warning("zonesdb path dir does not exist, creating new")
+        makedirs(DBPATH)
     if checkObsolete(dbfile):
         maintenanceRunning = True
         log.info("Zones db is obsolete, starting maintenance")
