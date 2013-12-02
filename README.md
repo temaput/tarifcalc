@@ -1,5 +1,6 @@
-estimate russian post delivery charges
-======================================
+tarifcalc
+=========
+calculate russian post delivery charges based on dbf files from info.russianpost.ru
 
 for now works only for Moscow as sending point
 can estimate delivery charges for parcel and letterpackage
@@ -23,3 +24,4 @@ dict that contains all the prices, look at tarifconfig.py
 may also contain special key 'zonesdbcfg' which supposed to be the dict itself
 with keys 'DBPATH' and 'TMPPATH' to store zonesdb wich holds all info about
 russian post zones (obtained by getzones.py from info.russianpost.ru)
+=======

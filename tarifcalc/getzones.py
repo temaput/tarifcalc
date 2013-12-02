@@ -34,7 +34,7 @@ def parseDBF(dbffile):
             return None
     return zones
 
-def extractDBF(zipfile, path=None):
+def extractDBF(zipfile):
     """extracts dbf file from zip and returns its path"""
     from zipfile import is_zipfile, ZipFile
     if not is_zipfile(zipfile):
@@ -43,7 +43,7 @@ def extractDBF(zipfile, path=None):
     z = ZipFile(zipfile)
     for fn in z.namelist():
         if 'DBF' == fn.upper()[-3:]:
-            return z.extract(fn, path)
+            return z.extract(fn, TMPPATH)
     log.error('No dbf files found in zipfile %s', zipfile)
 
 def getLinks(url):
