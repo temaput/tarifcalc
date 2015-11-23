@@ -8,7 +8,7 @@ from os import makedirs
 
 INDEXFIELD = 'index'
 RATEFIELD = 'ratezone'
-URL = 'http://info.russianpost.ru/database/tzones.html'
+URL = 'http://vinfo.russianpost.ru/database/ops.html'
 OBSOLETE = 30
 DBPATH = ''
 TMPPATH = ''
@@ -67,7 +67,7 @@ def getLinks(url):
                         self.links.append(value)
     try:
         u = urlopen(url)
-    except HTTPError as e: 
+    except HTTPError as e:
         log.error("There was an error %s connecting to %s", e.code, url)
         return
 
@@ -92,7 +92,7 @@ def downloadZIP(links):
     if TMPPATH and not exists(TMPPATH):
         makedirs(TMPPATH)
     log.debug("links are: %s", links)
-    for link in sorted(links, 
+    for link in sorted(links,
             key = lambda x: x[-6:-4],
             reverse = True):
         if 'ZIP' == link.upper()[-3:]:
@@ -152,11 +152,11 @@ def maintenance():
         maintenanceRunning = False
         log.info("Maintenance complete")
 
-def acquireZoneByIndex(postalIndex): 
+def acquireZoneByIndex(postalIndex):
     import shelve
     from anydbm import error as DBMError
     from threading import Thread
-    
+
     t = Thread(name='maintenance', target=maintenance)
     t.start()
 
@@ -175,5 +175,5 @@ def acquireZoneByIndex(postalIndex):
     finally:
         if zones is not None:
             zones.close()
-    
+
 __all__ = ('acquireZoneByIndex',)
