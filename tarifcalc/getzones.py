@@ -8,7 +8,7 @@ from os import makedirs
 
 INDEXFIELD = 'index'
 RATEFIELD = 'ratezone'
-URL = 'http://vinfo.russianpost.ru/database/ops.html'
+URL = 'http://vinfo.russianpost.ru/database/tzones.html'
 OBSOLETE = 30
 DBPATH = ''
 TMPPATH = ''
